@@ -7,33 +7,33 @@ import {format} from 'date-fns';
 const Posts: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
 
-  const fetchPosts = useCallback(async () =>{
-    const  response = await axiosApi.get<ApiPost | null>('/posts.json')
+  const fetchPosts = useCallback(async () => {
+    const response = await axiosApi.get<ApiPost | null>('/posts.json');
     const posts = response.data;
 
-    if(posts) {
+    if (posts) {
       setPosts(Object.keys(posts).map(id => ({
         ...posts[id],
         id
       })));
-    }else {
-      setPosts([])
+    } else {
+      setPosts([]);
     }
 
   }, []);
 
-  useEffect(() =>{
+  useEffect(() => {
     void fetchPosts();
-  }, [fetchPosts])
+  }, [fetchPosts]);
 
   return (
-    <div className='mt-3 d-flex flex-column gap-3'>
+    <div className="mt-3 d-flex flex-column gap-3">
       {posts.map(post => (
-        <div key={post.id} className='card'>
-          <div className='card-body'>
-            <span className='text-muted ' style={{fontSize: '10px'}}>{format(post.createdAt, 'dd.MM.yyyy HH:mm')}</span>
+        <div key={post.id} className="card">
+          <div className="card-body">
+            <span className="text-muted " style={{fontSize: '10px'}}>{format(post.createdAt, 'dd.MM.yyyy HH:mm')}</span>
             <h6>{post.title}</h6>
-            <Link className='btn btn-primary' to={'/posts/' + post.id}>Read more &gt;&gt;</Link>
+            <Link className="btn btn-primary" to={'/posts/' + post.id}>Read more &gt;&gt;</Link>
           </div>
         </div>
       ))}
